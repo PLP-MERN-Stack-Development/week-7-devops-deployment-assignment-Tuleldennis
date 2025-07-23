@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: |
+        cd frontend && npm install
+        cd ../backend && npm install
+
+    - name: Run tests
+      run: |
+        cd frontend && npm test
+        cd ../backend && npm test
+
+    - name: Build frontend
+      run: |
+        cd frontend && npm run build
+
+    - name: Deploy backend
+      run: |
+        echo "Deploy backend to your cloud platform"
+
+    - name: Deploy frontend
+      run: |
+        echo "Deploy frontend to your hosting service"
